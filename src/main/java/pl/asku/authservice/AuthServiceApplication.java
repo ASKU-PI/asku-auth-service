@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import pl.asku.authservice.model.Authority;
 import pl.asku.authservice.repository.AuthorityRepository;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @SpringBootApplication
 @RefreshScope
+@EnableEurekaClient
 public class AuthServiceApplication {
 
     public static void main(String[] args) {
