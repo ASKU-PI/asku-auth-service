@@ -22,6 +22,13 @@ import java.util.Map;
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final Map<HttpMethod, String[]> ANONYMOUS_ENDPOINTS = Map.of(
+            HttpMethod.GET, new String[]{
+                    "/swagger-ui/**",
+                    "/v2/api-docs"
+            }
+    );
+
     private final Map<HttpMethod, String[]> OPEN_ENDPOINTS = Map.of(
             HttpMethod.POST, new String[]{
                     "/auth/login",
@@ -63,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, OPEN_ENDPOINTS.get(HttpMethod.POST)).permitAll()
+                .antMatchers(HttpMethod.GET, ANONYMOUS_ENDPOINTS.get(HttpMethod.GET)).anonymous()
                 .antMatchers(HttpMethod.GET, USER_ENDPOINTS.get(HttpMethod.GET)).hasRole("USER")
                 .antMatchers(HttpMethod.GET, MODERATOR_ENDPOINTS.get(HttpMethod.GET)).hasRole("MODERATOR")
                 .anyRequest().denyAll()

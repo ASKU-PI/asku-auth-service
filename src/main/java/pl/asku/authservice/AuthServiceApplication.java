@@ -8,12 +8,14 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import pl.asku.authservice.model.Authority;
 import pl.asku.authservice.repository.AuthorityRepository;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
 @SpringBootApplication
 @RefreshScope
 @EnableEurekaClient
+@EnableSwagger2
 public class AuthServiceApplication {
 
     public static void main(String[] args) {
