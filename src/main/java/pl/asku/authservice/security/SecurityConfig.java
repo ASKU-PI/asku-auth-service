@@ -25,7 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final Map<HttpMethod, String[]> ANONYMOUS_ENDPOINTS = Map.of(
             HttpMethod.GET, new String[]{
                     "/swagger-ui/**",
-                    "/v2/api-docs"
+                    "/v2/api-docs",
+                    "/swagger-resources/**",
+                    "/swagger-ui.html",
+                    "/webjars/**"
             }
     );
 
