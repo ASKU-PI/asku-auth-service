@@ -10,7 +10,7 @@ import pl.asku.authservice.service.UserService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api")
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;

@@ -34,20 +34,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final Map<HttpMethod, String[]> OPEN_ENDPOINTS = Map.of(
             HttpMethod.POST, new String[]{
-                    "/auth/login",
-                    "/auth/register"
+                    "/api/login",
+                    "/api/register"
             }
     );
 
     private final Map<HttpMethod, String[]> USER_ENDPOINTS = Map.of(
             HttpMethod.GET, new String[]{
-                    "/auth/user"
+                    "/api/user"
             }
     );
 
     private final Map<HttpMethod, String[]> MODERATOR_ENDPOINTS = Map.of(
             HttpMethod.GET, new String[]{
-                    "/auth/user/**"
+                    "/api/user/**"
             }
     );
 

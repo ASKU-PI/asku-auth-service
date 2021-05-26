@@ -19,7 +19,7 @@ import pl.asku.authservice.util.JwtTokenProvider;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api")
 @AllArgsConstructor
 public class AuthController {
 
