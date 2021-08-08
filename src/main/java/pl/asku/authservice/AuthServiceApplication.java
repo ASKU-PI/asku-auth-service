@@ -75,7 +75,10 @@ public class AuthServiceApplication {
                             testModeratorUsername,
                             passwordEncoder.encode(testModeratorPassword),
                             true,
-                            Set.of(new Authority("ROLE_USER"), new Authority("ROLE_MODERATOR"))
+                            Set.of(
+                                    new Authority("ROLE_USER"),
+                                    new Authority("ROLE_MODERATOR")
+                            )
                     )
             );
             userRepository.save(
@@ -84,7 +87,11 @@ public class AuthServiceApplication {
                             testAdminUsername,
                             passwordEncoder.encode(testAdminPassword),
                             true,
-                            Set.of(new Authority("ROLE_USER"), new Authority("ROLE_MODERATOR"), new Authority("ROLE_ADMIN"))
+                            Set.of(
+                                    new Authority("ROLE_USER"),
+                                    new Authority("ROLE_MODERATOR"),
+                                    new Authority("ROLE_ADMIN")
+                            )
                     )
             );
         };
