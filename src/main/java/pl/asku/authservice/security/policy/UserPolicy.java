@@ -1,2 +1,20 @@
-package pl.asku.authservice.security.policy;public class AuthPolicy {
+package pl.asku.authservice.security.policy;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserPolicy {
+
+    public boolean myUserInfo(Authentication authentication) {
+        return authentication != null
+                && authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    public boolean userInfo(Authentication authentication, String username) {
+        return authentication != null &&
+                (authentication.getName().equals(username)
+                        || authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR")));
+    }
 }

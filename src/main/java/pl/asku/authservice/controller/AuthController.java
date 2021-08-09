@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.asku.authservice.dto.LoginDto;
 import pl.asku.authservice.dto.TokenDto;
+import pl.asku.authservice.service.AuthService;
 import pl.asku.authservice.util.JwtTokenProvider;
 
 import javax.validation.Valid;
@@ -23,22 +24,20 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class AuthController {
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto) {
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
-
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String token = jwtTokenProvider.createToken(authentication);
+        TokenDto tokenDto;
+        try {
+            tokenDto = authService.login(loginDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", "Bearer " + token);
+        httpHeaders.add("Authorization", "Bearer " + tokenDto.getToken());
 
-        return new ResponseEntity<>(new TokenDto(token), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
     }
 }

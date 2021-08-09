@@ -13,4 +13,15 @@ spring:
 
 jwt:
   secret: verySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKey
+  token-validity-in-seconds: 8400
+
+test-data:
+  user-username: testUser
+  user-password: testUser
+
+  moderator-username: testModerator
+  moderator-password: testModerator
+
+  admin-username: testAdmin
+  admin-password: testAdmin
   # TODO: find a way to prevent the tests from trying to connect to rabbitmq

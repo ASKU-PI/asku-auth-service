@@ -22,36 +22,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final Map<HttpMethod, String[]> ANONYMOUS_ENDPOINTS = Map.of(
-            HttpMethod.GET, new String[]{
-                    "/actuator/health",
-                    "/swagger-ui/**",
-                    "/v2/api-docs",
-                    "/swagger-resources/**",
-                    "/swagger-ui.html",
-                    "/webjars/**"
-            }
-    );
-
-    private final Map<HttpMethod, String[]> OPEN_ENDPOINTS = Map.of(
-            HttpMethod.POST, new String[]{
-                    "/api/login",
-                    "/api/register"
-            }
-    );
-
-    private final Map<HttpMethod, String[]> USER_ENDPOINTS = Map.of(
-            HttpMethod.GET, new String[]{
-                    "/api/user"
-            }
-    );
-
-    private final Map<HttpMethod, String[]> MODERATOR_ENDPOINTS = Map.of(
-            HttpMethod.GET, new String[]{
-                    "/api/user/**"
-            }
-    );
-
     private final JwtTokenProvider jwtTokenProvider;
     private final CorsFilter corsFilter;
 
@@ -73,11 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, OPEN_ENDPOINTS.get(HttpMethod.POST)).permitAll()
-                .antMatchers(HttpMethod.GET, ANONYMOUS_ENDPOINTS.get(HttpMethod.GET)).anonymous()
-                .antMatchers(HttpMethod.GET, USER_ENDPOINTS.get(HttpMethod.GET)).hasRole("USER")
-                .antMatchers(HttpMethod.GET, MODERATOR_ENDPOINTS.get(HttpMethod.GET)).hasRole("MODERATOR")
-                .anyRequest().denyAll()
+                .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
