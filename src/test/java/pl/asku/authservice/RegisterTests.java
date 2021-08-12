@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import pl.asku.authservice.dto.UserDto;
 import pl.asku.authservice.model.User;
@@ -39,6 +38,7 @@ public class RegisterTests {
 
         //then
         assertEquals(user.getUsername(), username);
+        assertEquals(user.getAuthorities().size(), 1);
     }
 
     @Test
