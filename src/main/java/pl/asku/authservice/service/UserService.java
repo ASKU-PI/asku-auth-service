@@ -10,8 +10,13 @@ import pl.asku.authservice.model.User;
 import pl.asku.authservice.repository.UserRepository;
 import pl.asku.authservice.util.SecurityUtil;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +29,15 @@ public class UserService {
     public User register(UserDto userDto) {
         if (userRepository.findOneWithAuthoritiesByUsername(userDto.getUsername()).orElse(null) != null) {
             throw new RuntimeException("User with this username exists");
+        }
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<UserDto>> violations = validator.validate(userDto);
+
+        if (violations.size() > 0) {
+            throw new RuntimeException(violations.toString());
         }
 
         Authority authority = Authority.builder()
