@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -14,7 +15,8 @@ import javax.validation.constraints.Size;
 public class UserDto {
 
    @NotNull
-   @Size(min = 3, max = 50)
+   @Pattern(regexp =  "^[a-zA-Z0-9.\\-\\/@_$]*$")
+   @Size(min = 3, max = 100)
    private String username;
 
    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

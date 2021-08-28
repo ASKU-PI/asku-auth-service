@@ -21,7 +21,7 @@ public class User {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long userId;
 
-   @Column(name = "username", length = 50, unique = true)
+   @Column(name = "username", length = 100, unique = true)
    private String username;
 
    @JsonIgnore

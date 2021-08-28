@@ -60,5 +60,4 @@ class LoginTests {
         //when then
         assertThrows(BadCredentialsException.class, () -> authService.login(loginDto));
     }
-
 }

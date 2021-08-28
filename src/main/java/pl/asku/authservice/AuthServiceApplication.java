@@ -8,6 +8,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 import pl.asku.authservice.model.Authority;
 import pl.asku.authservice.model.User;
 import pl.asku.authservice.repository.AuthorityRepository;
@@ -38,8 +39,34 @@ public class AuthServiceApplication {
     @Value("${test-data.admin-password}")
     private String testAdminPassword;
 
+    @Value("${test-data.fb-user-username}")
+    private String testFacebookUserUsername;
+    @Value("${test-data.fb-user-password}")
+    private String testFacebookUserPassword;
+
+    @Value("${facebook.username-prefix}")
+    private String facebookUsernamePrefix;
+
+    @Value("${facebook.default-password}")
+    private String facebookDefaultPassword;
+
     public static void main(String[] args) {
         SpringApplication.run(AuthServiceApplication.class, args);
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
+    public String facebookUsernamePrefix(){
+        return facebookUsernamePrefix;
+    }
+
+    @Bean
+    public String facebookDefaultPassword(){
+        return facebookDefaultPassword;
     }
 
     @Bean
@@ -92,6 +119,15 @@ public class AuthServiceApplication {
                                     new Authority("ROLE_MODERATOR"),
                                     new Authority("ROLE_ADMIN")
                             )
+                    )
+            );
+            userRepository.save(
+                    new User(
+                            4L,
+                            testFacebookUserUsername,
+                            passwordEncoder.encode(testFacebookUserPassword),
+                            true,
+                            Set.of(new Authority("ROLE_USER"))
                     )
             );
         };

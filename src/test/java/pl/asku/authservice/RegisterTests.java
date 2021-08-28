@@ -60,4 +60,14 @@ public class RegisterTests {
         //TODO: make this throw custom exception
         assertThrows(RuntimeException.class, () -> userService.register(userDto));
     }
+
+    @Test
+    public void failsWithNotValidCredentials(){
+        //given
+        UserDto userDto = UserDto.builder().username("abcde|fghij").password("secretPassword").build();
+
+        //when then
+        //TODO: make this throw custom exception
+        assertThrows(RuntimeException.class, () -> userService.register(userDto));
+    }
 }

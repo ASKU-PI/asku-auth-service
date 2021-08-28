@@ -15,6 +15,10 @@ jwt:
   secret: verySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKey
   token-validity-in-seconds: 8400
 
+facebook:
+  username-prefix: fb|
+  default-password: verySecretPassword
+
 test-data:
   user-username: testUser
   user-password: testUser
@@ -24,4 +28,7 @@ test-data:
 
   admin-username: testAdmin
   admin-password: testAdmin
+
+  fb-user-username: fb|testUser
+  fb-user-password: verySecretPassword
   # TODO: find a way to prevent the tests from trying to connect to rabbitmq

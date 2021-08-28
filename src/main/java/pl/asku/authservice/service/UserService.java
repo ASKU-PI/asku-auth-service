@@ -1,10 +1,12 @@
 package pl.asku.authservice.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.asku.authservice.dto.UserDto;
+import pl.asku.authservice.dto.facebook.FacebookUserDto;
 import pl.asku.authservice.model.Authority;
 import pl.asku.authservice.model.User;
 import pl.asku.authservice.repository.UserRepository;
@@ -24,13 +26,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final String facebookUsernamePrefix;
+    private final String facebookDefaultPassword;
 
     @Transactional
     public User register(UserDto userDto) {
-        if (userRepository.findOneWithAuthoritiesByUsername(userDto.getUsername()).orElse(null) != null) {
-            throw new RuntimeException("User with this username exists");
-        }
-
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
@@ -40,13 +40,29 @@ public class UserService {
             throw new RuntimeException(violations.toString());
         }
 
+        return register(userDto.getUsername(), userDto.getPassword());
+    }
+
+    @Transactional
+    public User facebookRegister(FacebookUserDto facebookUserDto) {
+        String username = facebookUsernamePrefix + facebookUserDto.getId();
+        String password = facebookDefaultPassword;
+
+        return register(username, password);
+    }
+
+    private User register(String username, String password) {
+        if (userRepository.findOneWithAuthoritiesByUsername(username).orElse(null) != null) {
+            throw new RuntimeException("User with this username exists");
+        }
+
         Authority authority = Authority.builder()
                 .authorityName("ROLE_USER")
                 .build();
 
         User user = User.builder()
-                .username(userDto.getUsername())
-                .password(passwordEncoder.encode(userDto.getPassword()))
+                .username(username)
+                .password(passwordEncoder.encode(password))
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
