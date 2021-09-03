@@ -13,12 +13,12 @@ public class FacebookService {
     private FacebookClient facebookClient;
     private AuthService authService;
     private UserService userService;
-    private final String facebookUsernamePrefix;
+    private final String facebookIdentifierPrefix;
 
     public TokenDto login(String fbAccessToken) {
         var facebookUser = facebookClient.getUser(fbAccessToken);
 
-        if(userService.getUser(facebookUsernamePrefix + facebookUser.getId()).isEmpty()) {
+        if(userService.getUser(facebookIdentifierPrefix + facebookUser.getId()).isEmpty()) {
             userService.facebookRegister(facebookUser);
         }
 

@@ -11,20 +11,20 @@ public class SecurityUtil {
    private SecurityUtil() {
    }
 
-   public static Optional<String> getCurrentUsername() {
+   public static Optional<String> getCurrentUserIdentifier() {
       final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
       if (authentication == null) {
          return Optional.empty();
       }
 
-      String username = null;
+      String identifier = null;
       if (authentication.getPrincipal() instanceof UserDetails springSecurityUser) {
-         username = springSecurityUser.getUsername();
+         identifier = springSecurityUser.getUsername();
       } else if (authentication.getPrincipal() instanceof String) {
-         username = (String) authentication.getPrincipal();
+         identifier = (String) authentication.getPrincipal();
       }
 
-      return Optional.ofNullable(username);
+      return Optional.ofNullable(identifier);
    }
 }

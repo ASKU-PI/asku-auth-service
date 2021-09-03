@@ -12,9 +12,9 @@ public class UserPolicy {
                 && authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    public boolean userInfo(Authentication authentication, String username) {
+    public boolean userInfo(Authentication authentication, String identifier) {
         return authentication != null &&
-                (authentication.getName().equals(username)
+                (authentication.getName().equals(identifier)
                         || authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR")));
     }
 }

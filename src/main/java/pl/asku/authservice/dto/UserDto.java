@@ -3,6 +3,7 @@ package pl.asku.authservice.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -15,9 +16,8 @@ import javax.validation.constraints.Size;
 public class UserDto {
 
    @NotNull
-   @Pattern(regexp =  "^[a-zA-Z0-9.\\-\\/@_$]*$")
-   @Size(min = 3, max = 100)
-   private String username;
+   @Email
+   private String identifier;
 
    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
    @NotNull

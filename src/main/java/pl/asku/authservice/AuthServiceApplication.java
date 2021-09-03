@@ -24,28 +24,28 @@ import java.util.Set;
 @EnableSwagger2
 public class AuthServiceApplication {
 
-    @Value("${test-data.user-username}")
-    private String testUserUsername;
+    @Value("${test-data.user-email}")
+    private String testUserEmail;
     @Value("${test-data.user-password}")
     private String testUserPassword;
 
-    @Value("${test-data.moderator-username}")
-    private String testModeratorUsername;
+    @Value("${test-data.moderator-email}")
+    private String testModeratorEmail;
     @Value("${test-data.moderator-password}")
     private String testModeratorPassword;
 
-    @Value("${test-data.admin-username}")
-    private String testAdminUsername;
+    @Value("${test-data.admin-email}")
+    private String testAdminEmail;
     @Value("${test-data.admin-password}")
     private String testAdminPassword;
 
-    @Value("${test-data.fb-user-username}")
-    private String testFacebookUserUsername;
+    @Value("${test-data.fb-user-identifier}")
+    private String testFacebookUserIdentifier;
     @Value("${test-data.fb-user-password}")
     private String testFacebookUserPassword;
 
-    @Value("${facebook.username-prefix}")
-    private String facebookUsernamePrefix;
+    @Value("${facebook.identifier-prefix}")
+    private String facebookIdentifierPrefix;
 
     @Value("${facebook.default-password}")
     private String facebookDefaultPassword;
@@ -60,8 +60,8 @@ public class AuthServiceApplication {
     }
 
     @Bean
-    public String facebookUsernamePrefix(){
-        return facebookUsernamePrefix;
+    public String facebookIdentifierPrefix(){
+        return facebookIdentifierPrefix;
     }
 
     @Bean
@@ -90,7 +90,7 @@ public class AuthServiceApplication {
             userRepository.save(
                     new User(
                             1L,
-                            testUserUsername,
+                            testUserEmail,
                             passwordEncoder.encode(testUserPassword),
                             true,
                             Set.of(new Authority("ROLE_USER"))
@@ -99,7 +99,7 @@ public class AuthServiceApplication {
             userRepository.save(
                     new User(
                             2L,
-                            testModeratorUsername,
+                            testModeratorEmail,
                             passwordEncoder.encode(testModeratorPassword),
                             true,
                             Set.of(
@@ -111,7 +111,7 @@ public class AuthServiceApplication {
             userRepository.save(
                     new User(
                             3L,
-                            testAdminUsername,
+                            testAdminEmail,
                             passwordEncoder.encode(testAdminPassword),
                             true,
                             Set.of(
@@ -124,7 +124,7 @@ public class AuthServiceApplication {
             userRepository.save(
                     new User(
                             4L,
-                            testFacebookUserUsername,
+                            testFacebookUserIdentifier,
                             passwordEncoder.encode(testFacebookUserPassword),
                             true,
                             Set.of(new Authority("ROLE_USER"))

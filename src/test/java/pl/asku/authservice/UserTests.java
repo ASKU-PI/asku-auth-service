@@ -17,14 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 public class UserTests {
 
-    @Value("${test-data.user-username}")
-    private String testUserUsername;
+    @Value("${test-data.user-email}")
+    private String testUserEmail;
 
-    @Value("${test-data.moderator-username}")
-    private String testModeratorUsername;
+    @Value("${test-data.moderator-email}")
+    private String testModeratorEmail;
 
-    @Value("${test-data.admin-username}")
-    private String testAdminUsername;
+    @Value("${test-data.admin-email}")
+    private String testAdminEmail;
 
     private final UserService userService;
 
@@ -36,52 +36,52 @@ public class UserTests {
     @Test
     public void returnsDataOfUser() {
         //given
-        String username = testUserUsername;
+        String email = testUserEmail;
 
         //when
-        Optional<User> user = userService.getUser(username);
+        Optional<User> user = userService.getUser(email);
 
         //then
         assertTrue(user.isPresent());
-        assertEquals(user.get().getUsername(), username);
+        assertEquals(user.get().getIdentifier(), email);
         assertEquals(user.get().getAuthorities().size(), 1);
     }
 
     @Test
     public void returnsDataOfModerator() {
         //given
-        String username = testModeratorUsername;
+        String email = testModeratorEmail;
 
         //when
-        Optional<User> user = userService.getUser(username);
+        Optional<User> user = userService.getUser(email);
 
         //then
         assertTrue(user.isPresent());
-        assertEquals(user.get().getUsername(), username);
+        assertEquals(user.get().getIdentifier(), email);
         assertEquals(user.get().getAuthorities().size(), 2);
     }
 
     @Test
     public void returnsDataOfAdmin() {
         //given
-        String username = testAdminUsername;
+        String email = testAdminEmail;
 
         //when
-        Optional<User> user = userService.getUser(username);
+        Optional<User> user = userService.getUser(email);
 
         //then
         assertTrue(user.isPresent());
-        assertEquals(user.get().getUsername(), username);
+        assertEquals(user.get().getIdentifier(), email);
         assertEquals(user.get().getAuthorities().size(), 3);
     }
 
     @Test
     public void emptyForWrongUser() {
         //given
-        String username = "wrongUsername";
+        String email = "wrong@email.com";
 
         //when
-        Optional<User> user = userService.getUser(username);
+        Optional<User> user = userService.getUser(email);
 
         //then
         assertTrue(user.isEmpty());

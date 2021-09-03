@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import pl.asku.authservice.dto.UserDto;
+import pl.asku.authservice.dto.RegisterDto;
 import pl.asku.authservice.model.User;
 import pl.asku.authservice.service.UserService;
 
@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("test")
 public class RegisterTests {
 
-    @Value("${test-data.user-username}")
-    private String testUserUsername;
+    @Value("${test-data.user-email}")
+    private String testUserEmail;
 
     private final UserService userService;
 
@@ -29,45 +29,52 @@ public class RegisterTests {
     @Test
     public void registersUserWithCorrectCredentials() {
         //given
-        String username = "test";
+        String firstName = "John";
+        String lastName = "Doe";
+        String email = "test@test.pl";
         String password = "test";
-        UserDto userDto = UserDto.builder().username(username).password(password).build();
+        RegisterDto registerDto = RegisterDto.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .password(password)
+                .build();
 
         //when
-        User user = userService.register(userDto);
+        User user = userService.register(registerDto);
 
         //then
-        assertEquals(user.getUsername(), username);
+        assertEquals(user.getIdentifier(), email);
         assertEquals(user.getAuthorities().size(), 1);
     }
 
     @Test
     public void failsForExistingUser() {
         //given
-        UserDto userDto = UserDto.builder().username(testUserUsername).password("test").build();
+        RegisterDto registerDto = RegisterDto.builder().email(testUserEmail).password("test").build();
 
         //when then
         //TODO: make this throw custom exception
-        assertThrows(RuntimeException.class, () -> userService.register(userDto));
+        assertThrows(RuntimeException.class, () -> userService.register(registerDto));
     }
 
     @Test
     public void failsForEmptyCredentials() {
         //given
-        UserDto userDto = UserDto.builder().username("").password("").build();
+        RegisterDto registerDto = RegisterDto.builder().email("").password("").build();
 
         //when then
         //TODO: make this throw custom exception
-        assertThrows(RuntimeException.class, () -> userService.register(userDto));
+        assertThrows(RuntimeException.class, () -> userService.register(registerDto));
     }
 
     @Test
     public void failsWithNotValidCredentials(){
         //given
-        UserDto userDto = UserDto.builder().username("abcde|fghij").password("secretPassword").build();
+        RegisterDto registerDto = RegisterDto.builder().email("abcde@@fghijgmail.com").password("secretPassword").build();
 
         //when then
         //TODO: make this throw custom exception
-        assertThrows(RuntimeException.class, () -> userService.register(userDto));
+        assertThrows(RuntimeException.class, () -> userService.register(registerDto));
     }
 }

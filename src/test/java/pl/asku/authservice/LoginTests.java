@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class LoginTests {
 
-    @Value("${test-data.user-username}")
-    private String testUserUsername;
+    @Value("${test-data.user-email}")
+    private String testUserEmail;
 
     @Value("${test-data.user-password}")
     private String testUserPassword;
@@ -38,7 +38,7 @@ class LoginTests {
     @Test
     public void loginShouldReturnBearerToken() {
         //given
-        LoginDto loginDto = LoginDto.builder().username(testUserUsername).password(testUserPassword).build();
+        LoginDto loginDto = LoginDto.builder().email(testUserEmail).password(testUserPassword).build();
 
         //when
         TokenDto tokenDto = authService.login(loginDto);
@@ -46,8 +46,8 @@ class LoginTests {
         //then
         Assertions.assertAll(
                 () -> assertNotNull(tokenDto.getToken()),
-                () -> assertTrue(SecurityUtil.getCurrentUsername().isPresent()),
-                () -> assertEquals(SecurityUtil.getCurrentUsername().get(), testUserUsername),
+                () -> assertTrue(SecurityUtil.getCurrentUserIdentifier().isPresent()),
+                () -> assertEquals(SecurityUtil.getCurrentUserIdentifier().get(), testUserEmail),
                 () -> assertTrue(jwtTokenProvider.checkToken(tokenDto.getToken()))
         );
     }
@@ -55,7 +55,7 @@ class LoginTests {
     @Test
     public void failsForWrongCredentials() {
         //given
-        LoginDto loginDto = LoginDto.builder().username("wrongUsername").password("wrongPassword").build();
+        LoginDto loginDto = LoginDto.builder().email("wrong@email.com").password("wrongPassword").build();
 
         //when then
         assertThrows(BadCredentialsException.class, () -> authService.login(loginDto));

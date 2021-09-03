@@ -1,11 +1,10 @@
 package pl.asku.authservice.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.asku.authservice.dto.UserDto;
+import pl.asku.authservice.dto.RegisterDto;
 import pl.asku.authservice.dto.facebook.FacebookUserDto;
 import pl.asku.authservice.model.Authority;
 import pl.asku.authservice.model.User;
@@ -26,34 +25,33 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final String facebookUsernamePrefix;
+    private final String facebookIdentifierPrefix;
     private final String facebookDefaultPassword;
 
     @Transactional
-    public User register(UserDto userDto) {
+    public User register(RegisterDto registerDto) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        Set<ConstraintViolation<UserDto>> violations = validator.validate(userDto);
+        Set<ConstraintViolation<RegisterDto>> violations = validator.validate(registerDto);
 
         if (violations.size() > 0) {
             throw new RuntimeException(violations.toString());
         }
 
-        return register(userDto.getUsername(), userDto.getPassword());
+        return register(registerDto.getEmail(), registerDto.getPassword());
     }
 
     @Transactional
     public User facebookRegister(FacebookUserDto facebookUserDto) {
-        String username = facebookUsernamePrefix + facebookUserDto.getId();
-        String password = facebookDefaultPassword;
+        String identifier = facebookIdentifierPrefix + facebookUserDto.getId();
 
-        return register(username, password);
+        return register(identifier, facebookDefaultPassword);
     }
 
-    private User register(String username, String password) {
-        if (userRepository.findOneWithAuthoritiesByUsername(username).orElse(null) != null) {
-            throw new RuntimeException("User with this username exists");
+    private User register(String identifier, String password) {
+        if (userRepository.findOneWithAuthoritiesByIdentifier(identifier).orElse(null) != null) {
+            throw new RuntimeException("User with this identifier exists");
         }
 
         Authority authority = Authority.builder()
@@ -61,7 +59,7 @@ public class UserService {
                 .build();
 
         User user = User.builder()
-                .username(username)
+                .identifier(identifier)
                 .password(passwordEncoder.encode(password))
                 .authorities(Collections.singleton(authority))
                 .activated(true)
@@ -71,12 +69,12 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<User> getUser(String username) {
-        return userRepository.findOneWithAuthoritiesByUsername(username);
+    public Optional<User> getUser(String identifier) {
+        return userRepository.findOneWithAuthoritiesByIdentifier(identifier);
     }
 
     @Transactional(readOnly = true)
     public Optional<User> getCurrentUser() {
-        return SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername);
+        return SecurityUtil.getCurrentUserIdentifier().flatMap(userRepository::findOneWithAuthoritiesByIdentifier);
     }
 }

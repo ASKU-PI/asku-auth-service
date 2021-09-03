@@ -21,8 +21,8 @@ public class User {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long userId;
 
-   @Column(name = "username", length = 100, unique = true)
-   private String username;
+   @Column(name = "identifier", length = 100, unique = true)
+   private String identifier;
 
    @JsonIgnore
    @Column(name = "password", length = 100)

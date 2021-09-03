@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import pl.asku.authservice.dto.UserDto;
+import pl.asku.authservice.dto.RegisterDto;
 import pl.asku.authservice.dto.facebook.FacebookLoginRequest;
 import pl.asku.authservice.model.User;
 import pl.asku.authservice.security.policy.UserPolicy;
@@ -24,10 +24,10 @@ public class UserController {
     private final UserPolicy userPolicy;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<User> register(@Valid @RequestBody RegisterDto registerDto) {
         User user = null;
         try {
-            user = userService.register(userDto);
+            user = userService.register(registerDto);
         } catch(Exception e) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -56,13 +56,13 @@ public class UserController {
         return currentUser.map(user -> ResponseEntity.status(HttpStatus.OK).body(user)).orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null));
     }
 
-    @GetMapping("/user/{username}")
-    public ResponseEntity<User> getUserInfo(@PathVariable String username, Authentication authentication) {
-        if(!userPolicy.userInfo(authentication, username)) {
+    @GetMapping("/user/{identifier}")
+    public ResponseEntity<User> getUserInfo(@PathVariable String identifier, Authentication authentication) {
+        if(!userPolicy.userInfo(authentication, identifier)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        Optional<User> requestedUser = userService.getUser(username);
+        Optional<User> requestedUser = userService.getUser(identifier);
 
         return requestedUser.map(user -> ResponseEntity.status(HttpStatus.OK).body(user)).orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null));
     }

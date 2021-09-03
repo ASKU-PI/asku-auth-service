@@ -1,7 +1,6 @@
 package pl.asku.authservice.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -23,7 +22,7 @@ public class AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final String facebookUsernamePrefix;
+    private final String facebookIdentifierPrefix;
     private final String facebookDefaultPassword;
 
     public TokenDto login(LoginDto loginDto) {
@@ -36,17 +35,17 @@ public class AuthService {
             throw new RuntimeException(violations.toString());
         }
 
-        return login(loginDto.getUsername(), loginDto.getPassword());
+        return login(loginDto.getEmail(), loginDto.getPassword());
     }
 
     public TokenDto facebookLogin(String facebookUserId) {
-        String username = facebookUsernamePrefix + facebookUserId;
-        return login(username, facebookDefaultPassword);
+        String identifier = facebookIdentifierPrefix + facebookUserId;
+        return login(identifier, facebookDefaultPassword);
     }
 
-    private TokenDto login(String username, String password) {
+    private TokenDto login(String identifier, String password) {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, password);
+                new UsernamePasswordAuthenticationToken(identifier, password);
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
