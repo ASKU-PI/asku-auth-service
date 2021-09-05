@@ -29,7 +29,7 @@ public class UserController {
         try {
             user = userService.register(registerDto);
         } catch(Exception e) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
@@ -40,7 +40,7 @@ public class UserController {
         try {
             user = facebookService.register(facebookLoginRequest.getAccessToken());
         } catch(Exception e) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
