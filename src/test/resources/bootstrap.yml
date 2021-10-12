@@ -4,12 +4,6 @@ spring:
       enabled: false
     discovery:
       enabled: false
-    bus:
-      enabled: false
-  rabbitmq:
-    listener:
-      direct:
-        auto-startup: false
 
 jwt:
   secret: verySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKey
@@ -31,4 +25,3 @@ test-data:
 
   fb-user-identifier: fb@@testUser
   fb-user-password: verySecretPassword
-  # TODO: find a way to prevent the tests from trying to connect to rabbitmq

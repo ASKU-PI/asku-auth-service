@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+
+jwt:
+  secret: verySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKeyverySecretKey
+  token-validity-in-seconds: 8400
+
+facebook:
+  identifier-prefix: fb@@
+  default-password: verySecretPassword
+
+test-data:
+  user-email: testUser@gmail.com
+  user-password: testUser
+
+  moderator-email: testModerator@gmail.com
+  moderator-password: testModerator
+
+  admin-email: testAdmin@gmail.com
+  admin-password: testAdmin
+
+  fb-user-identifier: fb@@testUser
+  fb-user-password: verySecretPassword
