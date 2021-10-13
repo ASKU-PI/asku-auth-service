@@ -14,20 +14,20 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class RegisterDto {
 
-   @NotNull
-   @Size(min = 1, max = 50)
-   private String firstName;
+    @NotNull
+    @Size(min = 1, max = 50)
+    private String firstName;
 
-   @NotNull
-   @Size(min = 1, max = 50)
-   private String lastName;
+    @NotNull
+    @Size(min = 1, max = 50)
+    private String lastName;
 
-   @NotNull
-   @Email
-   private String email;
+    @NotNull
+    @Email
+    private String email;
 
-   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-   @NotNull
-   @Size(min = 3, max = 100)
-   private String password;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotNull
+    @Size(min = 3, max = 100)
+    private String password;
 }

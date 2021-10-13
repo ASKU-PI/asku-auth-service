@@ -16,10 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("test")
 public class RegisterTests {
 
+    private final UserService userService;
     @Value("${test-data.user-email}")
     private String testUserEmail;
-
-    private final UserService userService;
 
     @Autowired
     public RegisterTests(UserService userService) {
@@ -69,7 +68,7 @@ public class RegisterTests {
     }
 
     @Test
-    public void failsWithNotValidCredentials(){
+    public void failsWithNotValidCredentials() {
         //given
         RegisterDto registerDto = RegisterDto.builder().email("abcde@@fghijgmail.com").password("secretPassword").build();
 

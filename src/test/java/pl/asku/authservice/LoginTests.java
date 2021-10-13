@@ -19,15 +19,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class LoginTests {
 
+    private final AuthService authService;
+    private final JwtTokenProvider jwtTokenProvider;
     @Value("${test-data.user-email}")
     private String testUserEmail;
-
     @Value("${test-data.user-password}")
     private String testUserPassword;
-
-    private final AuthService authService;
-
-    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     LoginTests(AuthService authService, JwtTokenProvider jwtTokenProvider) {

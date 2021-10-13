@@ -17,16 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 public class UserTests {
 
+    private final UserService userService;
     @Value("${test-data.user-email}")
     private String testUserEmail;
-
     @Value("${test-data.moderator-email}")
     private String testModeratorEmail;
-
     @Value("${test-data.admin-email}")
     private String testAdminEmail;
-
-    private final UserService userService;
 
     @Autowired
     public UserTests(UserService userService) {

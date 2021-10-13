@@ -15,27 +15,27 @@ import java.util.Set;
 @NoArgsConstructor
 public class User {
 
-   @JsonIgnore
-   @Id
-   @Column(name = "user_id")
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long userId;
+    @JsonIgnore
+    @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
-   @Column(name = "identifier", length = 100, unique = true)
-   private String identifier;
+    @Column(name = "identifier", length = 100, unique = true)
+    private String identifier;
 
-   @JsonIgnore
-   @Column(name = "password", length = 100)
-   private String password;
+    @JsonIgnore
+    @Column(name = "password", length = 100)
+    private String password;
 
-   @JsonIgnore
-   @Column(name = "activated")
-   private boolean activated;
+    @JsonIgnore
+    @Column(name = "activated")
+    private boolean activated;
 
-   @ManyToMany
-   @JoinTable(
-      name = "user_authority",
-      joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-      inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
-   private Set<Authority> authorities;
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
 }

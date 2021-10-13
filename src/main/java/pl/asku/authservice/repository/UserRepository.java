@@ -7,6 +7,6 @@ import pl.asku.authservice.model.User;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-   @EntityGraph(attributePaths = "authorities")
-   Optional<User> findOneWithAuthoritiesByIdentifier(String identifier);
+    @EntityGraph(attributePaths = "authorities")
+    Optional<User> findOneWithAuthoritiesByIdentifier(String identifier);
 }

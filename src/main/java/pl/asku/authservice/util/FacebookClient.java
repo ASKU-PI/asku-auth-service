@@ -15,7 +15,7 @@ public class FacebookClient {
 
     private final String FACEBOOK_GRAPH_API_BASE = "https://graph.facebook.com";
 
-    public FacebookClient(@Autowired RestTemplate restTemplate){
+    public FacebookClient(@Autowired RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

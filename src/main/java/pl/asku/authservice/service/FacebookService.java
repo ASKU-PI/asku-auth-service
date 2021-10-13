@@ -10,15 +10,15 @@ import pl.asku.authservice.util.FacebookClient;
 @AllArgsConstructor
 public class FacebookService {
 
+    private final String facebookIdentifierPrefix;
     private FacebookClient facebookClient;
     private AuthService authService;
     private UserService userService;
-    private final String facebookIdentifierPrefix;
 
     public TokenDto login(String fbAccessToken) {
         var facebookUser = facebookClient.getUser(fbAccessToken);
 
-        if(userService.getUser(facebookIdentifierPrefix + facebookUser.getId()).isEmpty()) {
+        if (userService.getUser(facebookIdentifierPrefix + facebookUser.getId()).isEmpty()) {
             userService.facebookRegister(facebookUser);
         }
 

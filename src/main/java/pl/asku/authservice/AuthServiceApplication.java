@@ -60,30 +60,31 @@ public class AuthServiceApplication {
     }
 
     @Bean
-    public String facebookIdentifierPrefix(){
+    public String facebookIdentifierPrefix() {
         return facebookIdentifierPrefix;
     }
 
     @Bean
-    public String facebookDefaultPassword(){
+    public String facebookDefaultPassword() {
         return facebookDefaultPassword;
     }
 
     @Bean
-    public CommandLineRunner loadAuthorities(AuthorityRepository authorityRepository){
+    public CommandLineRunner loadAuthorities(AuthorityRepository authorityRepository) {
         return args -> {
             List<String> authorityNames = List.of("ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN");
             List<Authority> presentAuthorities = authorityRepository.findAll();
-            for(String authorityName : authorityNames){
+            for (String authorityName : authorityNames) {
                 Authority authority = new Authority(authorityName);
-                if(!presentAuthorities.contains(authority)){
+                if (!presentAuthorities.contains(authority)) {
                     authorityRepository.save(authority);
                 }
             }
         };
     }
 
-    @Bean CommandLineRunner loadTestUsers(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    @Bean
+    CommandLineRunner loadTestUsers(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 
 
         return args -> {

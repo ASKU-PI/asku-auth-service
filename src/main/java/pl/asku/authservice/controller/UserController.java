@@ -28,7 +28,7 @@ public class UserController {
         User user = null;
         try {
             user = userService.register(registerDto);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
@@ -39,7 +39,7 @@ public class UserController {
         User user = null;
         try {
             user = facebookService.register(facebookLoginRequest.getAccessToken());
-        } catch(Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
@@ -47,7 +47,7 @@ public class UserController {
 
     @GetMapping("/user")
     public ResponseEntity<User> getMyUserInfo(Authentication authentication) {
-        if(!userPolicy.myUserInfo(authentication)) {
+        if (!userPolicy.myUserInfo(authentication)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
@@ -58,7 +58,7 @@ public class UserController {
 
     @GetMapping("/user/{identifier}")
     public ResponseEntity<User> getUserInfo(@PathVariable String identifier, Authentication authentication) {
-        if(!userPolicy.userInfo(authentication, identifier)) {
+        if (!userPolicy.userInfo(authentication, identifier)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
