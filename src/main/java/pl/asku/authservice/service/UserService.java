@@ -43,10 +43,12 @@ public class UserService {
     }
 
     @Transactional
-    public User facebookRegister(FacebookUserDto facebookUserDto) {
+    public FacebookUserDto facebookRegister(FacebookUserDto facebookUserDto) {
         String identifier = facebookIdentifierPrefix + facebookUserDto.getId();
 
-        return register(identifier, facebookDefaultPassword);
+        register(identifier, facebookDefaultPassword);
+
+        return facebookUserDto;
     }
 
     private User register(String identifier, String password) {

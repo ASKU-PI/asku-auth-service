@@ -3,6 +3,7 @@ package pl.asku.authservice.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.asku.authservice.dto.TokenDto;
+import pl.asku.authservice.dto.facebook.FacebookUserDto;
 import pl.asku.authservice.model.User;
 import pl.asku.authservice.util.FacebookClient;
 
@@ -25,7 +26,7 @@ public class FacebookService {
         return authService.facebookLogin(facebookUser.getId());
     }
 
-    public User register(String fbAccessToken) {
+    public FacebookUserDto register(String fbAccessToken) {
         var facebookUser = facebookClient.getUser(fbAccessToken);
         return userService.facebookRegister(facebookUser);
     }

@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.asku.authservice.dto.RegisterDto;
 import pl.asku.authservice.dto.facebook.FacebookLoginRequest;
+import pl.asku.authservice.dto.facebook.FacebookUserDto;
 import pl.asku.authservice.model.User;
 import pl.asku.authservice.security.policy.UserPolicy;
 import pl.asku.authservice.service.FacebookService;
@@ -35,8 +36,8 @@ public class UserController {
     }
 
     @PostMapping("/facebook/register")
-    public ResponseEntity<User> register(@Valid @RequestBody FacebookLoginRequest facebookLoginRequest) {
-        User user = null;
+    public ResponseEntity<FacebookUserDto> facebookRegister(@Valid @RequestBody FacebookLoginRequest facebookLoginRequest) {
+        FacebookUserDto user = null;
         try {
             user = facebookService.register(facebookLoginRequest.getAccessToken());
         } catch (Exception e) {
