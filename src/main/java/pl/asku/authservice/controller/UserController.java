@@ -36,12 +36,13 @@ public class UserController {
     }
 
     @PostMapping("/facebook/register")
-    public ResponseEntity<FacebookUserDto> facebookRegister(@Valid @RequestBody FacebookLoginRequest facebookLoginRequest) {
+    public ResponseEntity<Object> facebookRegister(@Valid @RequestBody FacebookLoginRequest facebookLoginRequest) {
         FacebookUserDto user = null;
         try {
             user = facebookService.register(facebookLoginRequest.getAccessToken());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }

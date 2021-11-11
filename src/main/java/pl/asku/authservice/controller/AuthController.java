@@ -40,12 +40,12 @@ public class AuthController {
     }
 
     @PostMapping("/facebook/login")
-    public ResponseEntity<TokenDto> facebookLogin(@Valid @RequestBody FacebookLoginRequest facebookLoginRequest) {
+    public ResponseEntity<Object> facebookLogin(@Valid @RequestBody FacebookLoginRequest facebookLoginRequest) {
         TokenDto tokenDto;
         try {
             tokenDto = facebookService.login(facebookLoginRequest.getAccessToken());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
         HttpHeaders httpHeaders = new HttpHeaders();
